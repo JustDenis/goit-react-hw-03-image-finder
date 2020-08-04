@@ -4,12 +4,8 @@ import styled from 'styled-components';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
 const SpinerContainer = styled.div`
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-right: -50%;
-  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
 `;
 
 export default class Loader extends Component {

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Searchbar from './Searchbar';
 import Loader from './Loader';
 import ImageGallery from './ImageGallery';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import Modal from './Modal';
 import styled from 'styled-components';
 import imagesApi from '../services/imagesApi';
 
@@ -16,8 +18,9 @@ export default class App extends Component {
   state = {
     images: [],
     loading: false,
-    page: 1,
+    perPage: 12,
     searchQuery: '',
+    largeImgRef: null,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -25,36 +28,57 @@ export default class App extends Component {
     const nextQjery = this.state.searchQuery;
 
     if (prevQuery !== nextQjery) {
-      this.setState({ images: [], page: 1 });
+      this.setState({ images: [], perPage: 12 });
       this.fetchImages();
     }
   }
-
-  fetchImages = () => {
-    const { searchQuery, page } = this.state;
-
-    this.setState({loading: true});
-
-    imagesApi.fetchImagesWithQuery(searchQuery, page).then(images =>
-      this.setState(prevState => ({
-        images: [...prevState.images, ...images],
-        page: prevState.page + 1,
-      })),
-    ).finally(() => this.setState({loading: false}));
-  };
 
   handleSearchQuery = query => {
     this.setState({ searchQuery: query });
   };
 
+  fetchImages = () => {
+    const { searchQuery, perPage } = this.state;
+
+    imagesApi.fetchImagesWithQuery(searchQuery, perPage).then(images =>
+      this.setState(prevState => ({
+        images: [...images],
+        perPage: prevState.perPage + 12,
+      })),
+    );
+  };
+
+  handleOpenModal = imgRef => {
+    this.setState({ largeImgRef: imgRef });
+  };
+
+  handleCloseModal = () => {
+    this.setState({ largeImgRef: null });
+  };
+
   render() {
-    const { images, loading } = this.state;
+    const { images, largeImgRef } = this.state;
     return (
       <Container>
         <Searchbar onSubmit={this.handleSearchQuery} />
-        {images.length > 0 && <ImageGallery images={images} />}
-        {loading && <Loader/>}
+        {images.length > 0 && (
+          <InfiniteScroll
+            dataLength={images.length}
+            next={this.fetchImages}
+            hasMore={true}
+            loader={<Loader />}
+          >
+            <ImageGallery images={images} onOpen={this.handleOpenModal} />
+          </InfiniteScroll>
+        )}
+        {largeImgRef && (
+          <Modal onClose={this.handleCloseModal}>
+            <img src={largeImgRef} alt="" />
+          </Modal>
+        )}
       </Container>
     );
   }
 }
+
+// {images.length > 0 && <ImageGallery images={images} />}

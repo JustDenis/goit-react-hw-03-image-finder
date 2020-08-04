@@ -19,10 +19,10 @@ const GalleryImage = styled.img`
   }
 `;
 
-function ImageGalleryItem({ image, alt }) {
+function ImageGalleryItem({ image, alt, onOpenModal }) {
   return (
     <GalleryItem>
-      <GalleryImage src={image} alt={alt} />
+      <GalleryImage src={image} alt={alt} onClick={onOpenModal}/>
     </GalleryItem>
   );
 }

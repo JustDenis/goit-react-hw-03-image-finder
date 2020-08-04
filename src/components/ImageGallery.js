@@ -15,7 +15,7 @@ const GalleryList = styled.ul`
   margin-right: auto;
 `;
 
-function ImageGallery({ images }) {
+function ImageGallery({ images, onOpen }) {
   return (
     <GalleryList>
       {images.map(image => (
@@ -23,6 +23,7 @@ function ImageGallery({ images }) {
           key={image.largeImageURL}
           image={image.webformatURL}
           alt={image.tags}
+          onOpenModal ={() => onOpen(image.largeImageURL)}
         />
       ))}
     </GalleryList>
