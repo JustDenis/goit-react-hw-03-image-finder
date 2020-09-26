@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const Header = styled.header`
   top: 0;
@@ -78,6 +79,10 @@ const Input = styled.input`
 `;
 
 export default class Searchbar extends Component {
+  static propTypes = {
+    onSubmit: PropTypes.func,
+  }
+
   state = {
     searchQuery: '',
   };

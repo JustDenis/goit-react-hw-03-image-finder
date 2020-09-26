@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const Backdrop = styled.div`
   position: fixed;
@@ -36,6 +37,10 @@ const CloseModal = styled.span`
 `;
 
 export default class Modal extends Component {
+  static propTypes = {
+    onClose: PropTypes.func,
+  }
+
   componentDidMount(){
     window.addEventListener('keydown', this.handleEscPress)
   }

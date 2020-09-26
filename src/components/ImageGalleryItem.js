@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const GalleryItem = styled.li`
   border-radius: 2px;
@@ -25,6 +26,12 @@ function ImageGalleryItem({ image, alt, onOpenModal }) {
       <GalleryImage src={image} alt={alt} onClick={onOpenModal}/>
     </GalleryItem>
   );
+}
+
+ImageGalleryItem.propTypes = {
+  image: PropTypes.string,
+  alt: PropTypes.string,
+  onOpenModal: PropTypes.func,
 }
 
 export default ImageGalleryItem;

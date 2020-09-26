@@ -1,6 +1,7 @@
 import React from 'react';
 import ImageGalleryItem from './ImageGalleryItem';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const GalleryList = styled.ul`
   display: grid;
@@ -28,6 +29,11 @@ function ImageGallery({ images, onOpen }) {
       ))}
     </GalleryList>
   );
+}
+
+ImageGallery.propTypes = {
+  images: PropTypes.arrayOf(PropTypes.object),
+  onOpen: PropTypes.func,
 }
 
 export default ImageGallery;
